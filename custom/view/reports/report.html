@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script>
+      require("electron").ipcRenderer.on("reload", (event, message) => {
+        refresh();
+      });
+    </script>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <style>
+      a {
+        font-weight: 700 !important;
+      }
+      label {
+        color: black !important;
+      }
+      input[placeholder],
+      [placeholder],
+      *[placeholder] {
+        color: black !important;
+      }
+      select {
+        color: black !important;
+      }
+      ::-webkit-calendar-picker-indicator {
+        filter: invert(-1) !important;
+      }
+      input[type="date"] {
+        color: black !important;
+      }
+      ::-webkit-input-placeholder {
+        /* Chrome/Opera/Safari */
+        color: black !important;
+      }
+      input {
+        border: 1px solid black !important;
+      }
+      select {
+        border: 1px solid black !important;
+      }
+      li div div a {
+        color: black !important;
+      }
+      .active {
+        color: blue !important;
+      }
+      .collapse-header {
+        color: black !important;
+      }
+      .fa-bell,
+      .fa-envelope,
+      .user_name {
+        color: black !important;
+      }
+      th,
+      td {
+        color: black !important;
+      }
+      table {
+        border: 1px solid black !important;
+      }
+    </style>
+
+    <title>Reports | Ledger</title>
+
+    <!-- Custom fonts for this template -->
+    <link
+      href="../../vendor/fontawesome-free/css/all.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+      rel="stylesheet"
+    />
+
+    <!-- Custom styles for this template -->
+    <link href="../../css/sb-admin-2.min.css" rel="stylesheet" />
+
+    <!-- Custom styles for this page -->
+    <link
+      href="../../vendor/datatables/dataTables.bootstrap4.min.css"
+      rel="stylesheet"
+    />
+    <script src="../../../main.js"></script>
+
+    <script>
+      var page = "report";
+      window.$ =
+        window.jQuery = require("../../../node_modules/jquery/dist/jquery.min.js");
+    </script>
+  </head>
+
+  <body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+          <!-- Topbar -->
+          <nav
+            class="navbar navbar-expand navbar-light bg-primary topbar mb-4 static-top shadow"
+          >
+            <a
+              class="navbar-brand"
+              href="javascript:;"
+              onclick="dashboard(page);"
+              style="color: white !important"
+              >Dashboard</a
+            >
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                  <a
+                    style="color: white !important"
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    id="navbarDropdown"
+                    role="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    Main
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="ac(page);"
+                      >Ac Unit</a
+                    >
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="trans(page);"
+                      >Transporter List</a
+                    >
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="bank(page);"
+                      >Bank List</a
+                    >
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="city(page);"
+                      >City List</a
+                    >
+                    <div class="dropdown-divider"></div>
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="item_cat(page);"
+                      >Item Category</a
+                    >
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="item(page);"
+                      >Item List</a
+                    >
+                    <div class="dropdown-divider"></div>
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="party(page);"
+                      >Party List</a
+                    >
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="party_rate(page);"
+                      >Party Rate List</a
+                    >
+                    <div class="dropdown-divider"></div>
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="saleman(page);"
+                      >Saleman</a
+                    >
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="area(page);"
+                      >Area</a
+                    >
+                  </div>
+                </li>
+                <li class="nav-item dropdown">
+                  <a
+                    style="color: white !important"
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    id="navbarDropdown"
+                    role="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    Transaction
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="purchase(page);"
+                      >Purchase</a
+                    >
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="sale(page);"
+                      >Sale</a
+                    >
+                    <div class="dropdown-divider"></div>
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="purchase_return(page);"
+                      >Purchase Return</a
+                    >
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="sale_return(page);"
+                      >Sale Return</a
+                    >
+                    <div class="dropdown-divider"></div>
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="payment(page);"
+                      >Payment</a
+                    >
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="receipt(page);"
+                      >Receipt</a
+                    >
+                  </div>
+                </li>
+                <li class="nav-item">
+                  <a
+                    style="color: white !important"
+                    class="nav-link"
+                    href="javascript:;"
+                    onclick="report(page);"
+                    >Reports</a
+                  >
+                </li>
+                <li class="nav-item dropdown">
+                  <a
+                    style="color: white !important"
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    id="navbarDropdown"
+                    role="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    Settings
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="add_user(page);"
+                      >Add User</a
+                    >
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="update_user(page);"
+                      >Update User</a
+                    >
+                  </div>
+                </li>
+              </ul>
+              <form class="form-inline my-2 my-lg-0">
+                <a
+                  style="color: white !important"
+                  class="nav-link disabled"
+                  href="#"
+                  >REPORTS</a
+                >
+              </form>
+            </div>
+          </nav>
+          <!-- End of Topbar -->
+
+          <!-- ================================================================================================== -->
+
+          <!-- Begin Page Content -->
+          <div class="container-fluid">
+            <div class="container">
+              <div class="row">
+                <div class="form-group col-lg-2"></div>
+                <div class="form-group col-lg-4">
+                  <label for="date_from">Select The Date From:</label>
+                  <input
+                    type="date"
+                    class="form-control form-control-user"
+                    id="date_from"
+                  />
+                </div>
+
+                <div class="form-group col-lg-4">
+                  <label for="date_to">Select The Date To:</label>
+                  <input
+                    type="date"
+                    class="form-control form-control-user"
+                    id="date_to"
+                  />
+                </div>
+                <div class="form-group col-lg-2"></div>
+              </div>
+              <div class="row">
+                <div class="form-group col-lg-2"></div>
+                <div class="form-group col-lg-4">
+                  <label for="report_party">Select The Party:</label>
+                  <select class="form-control" id="report_party"></select>
+                </div>
+                <div class="form-group col-lg-4">
+                  <label for="report_item">Select The Item:</label>
+                  <select class="form-control" id="report_item"></select>
+                </div>
+                <div class="form-group col-lg-2"></div>
+              </div>
+              <div class="row">
+                <div class="form-group col-lg-2"></div>
+                <div class="form-group col-lg-4">
+                  <label for="report_party">Select The City:</label>
+                  <select class="form-control" id="report_city"></select>
+                </div>
+                <div class="form-group col-lg-4"></div>
+                <div class="form-group col-lg-2"></div>
+              </div>
+            </div>
+            <br />
+            <hr />
+            <br />
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-4">
+                  <button
+                    class="btn btn-primary btn-user btn-block"
+                    onclick="show_purchase()"
+                  >
+                    Show Purchase
+                  </button>
+                </div>
+                <div class="col-lg-4">
+                  <button
+                    class="btn btn-primary btn-user btn-block"
+                    onclick="show_sale()"
+                  >
+                    Show Sale
+                  </button>
+                </div>
+                <div class="col-lg-4">
+                  <button
+                    class="btn btn-primary btn-user btn-block"
+                    onclick="show_payment()"
+                  >
+                    Show Payment
+                  </button>
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col-lg-4">
+                  <button
+                    class="btn btn-primary btn-user btn-block"
+                    onclick="show_receipt()"
+                  >
+                    Show Receipt
+                  </button>
+                </div>
+                <div class="col-lg-4">
+                  <button
+                    class="btn btn-primary btn-user btn-block"
+                    onclick="show_ledger()"
+                  >
+                    Show Ledger
+                  </button>
+                </div>
+                <div class="col-lg-4">
+                  <button
+                    class="btn btn-primary btn-user btn-block"
+                    onclick="show_stock()"
+                  >
+                    Show stock list
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /.container-fluid -->
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- ================================================================================================== -->
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright &copy; Muhammad Shariq 2021</span>
+            </div>
+          </div>
+        </footer>
+        <!-- End of Footer -->
+      </div>
+      <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div
+      class="modal fade"
+      id="logoutModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button
+              class="close"
+              type="button"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Select "Logout" below if you are ready to end your current session.
+          </div>
+          <div class="modal-footer">
+            <button
+              class="btn btn-secondary"
+              type="button"
+              data-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <a
+              class="btn btn-primary"
+              href="javascript:;"
+              onclick="login(page);"
+              >Logout</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="../../vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="../../js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="../../vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="../../vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="../../js/demo/datatables-demo.js"></script>
+
+    <script src="report-view.js"></script>
+    <script src="payment-report.js"></script>
+    <script src="receipt-report.js"></script>
+    <script src="purchase-report.js"></script>
+    <script src="sale-report.js"></script>
+    <script src="ledger-report.js"></script>
+    <script src="stock-report.js"></script>
+
+    <script>
+      function refresh() {
+        show_party();
+        show_item();
+        show_city();
+      }
+      show_party();
+      show_item();
+      show_city();
+      document.getElementById("date_from").valueAsDate = new Date("2022-01-01");
+      document.getElementById("date_to").valueAsDate = new Date();
+
+      function show_purchase() {
+        var date_from = document.getElementById("date_from").value;
+        var date_to = document.getElementById("date_to").value;
+        var party = $("#report_party").val();
+        var item = $("#report_item").val();
+
+        downloadInvoicePu(date_from, date_to, party, item);
+      }
+      function show_stock() {
+        var party = $("#report_party").val();
+        var item = $("#report_item").val();
+
+        downloadInvoiceStock(party, item);
+      }
+      function show_sale() {
+        var date_from = document.getElementById("date_from").value;
+        var date_to = document.getElementById("date_to").value;
+        var party = $("#report_party").val();
+        var item = $("#report_item").val();
+        var city = $("#report_city").val();
+
+        downloadInvoiceS(date_from, date_to, party, item, city);
+      }
+      function show_payment() {
+        var date_from = document.getElementById("date_from").value;
+        var date_to = document.getElementById("date_to").value;
+        var party = $("#report_party").val();
+        var city = $("#report_city").val();
+
+        downloadInvoiceP(date_from, date_to, party, city);
+      }
+      function show_receipt() {
+        var date_from = document.getElementById("date_from").value;
+        var date_to = document.getElementById("date_to").value;
+        var party = $("#report_party").val();
+        var city = $("#report_city").val();
+
+        downloadInvoiceR(date_from, date_to, party,city);
+      }
+      function show_ledger() {
+        var date_from = document.getElementById("date_from").value;
+        var date_to = document.getElementById("date_to").value;
+        var party = $("#report_party").val();
+
+        if (party != "") {
+          downloadInvoiceL(date_from, date_to, party);
+        }
+      }
+    </script>
+  </body>
+</html>

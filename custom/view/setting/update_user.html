@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script>
+      require("electron").ipcRenderer.on("reload", (event, message) => {
+        refresh();
+      });
+    </script>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <style>
+      label {
+        color: black !important;
+      }
+      input[placeholder],
+      [placeholder],
+      *[placeholder] {
+        color: black !important;
+      }
+      select {
+        color: black !important;
+      }
+      ::-webkit-calendar-picker-indicator {
+        filter: invert(-1) !important;
+      }
+      input[type="date"] {
+        color: black !important;
+      }
+      input {
+        border: 1px solid black !important;
+      }
+      select {
+        border: 1px solid black !important;
+      }
+      li div div a {
+        color: black !important;
+      }
+      .active {
+        color: blue !important;
+      }
+      .collapse-header {
+        color: black !important;
+      }
+      .fa-bell,
+      .fa-envelope,
+      .user_name {
+        color: black !important;
+      }
+      th,
+      td {
+        color: black !important;
+      }
+      table {
+        border: 1px solid black !important;
+      }
+    </style>
+
+    <title>Update User | Ledger</title>
+
+    <!-- Custom fonts for this template -->
+    <link
+      href="../../vendor/fontawesome-free/css/all.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+      rel="stylesheet"
+    />
+
+    <!-- Custom styles for this template -->
+    <link href="../../css/sb-admin-2.min.css" rel="stylesheet" />
+
+    <!-- Custom styles for this page -->
+    <link
+      href="../../vendor/datatables/dataTables.bootstrap4.min.css"
+      rel="stylesheet"
+    />
+    <script src="../../../main.js"></script>
+
+    <script>
+      var page = "update_user";
+      window.$ =
+        window.jQuery = require("../../../node_modules/jquery/dist/jquery.min.js");
+    </script>
+  </head>
+
+  <body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+          <!-- Topbar -->
+          <nav
+            class="navbar navbar-expand navbar-light bg-primary topbar mb-4 static-top shadow"
+          >
+            <a
+              class="navbar-brand"
+              href="javascript:;"
+              onclick="dashboard(page);"
+              style="color: white !important"
+              >Dashboard</a
+            >
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                  <a
+                    style="color: white !important"
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    id="navbarDropdown"
+                    role="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    Main
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="ac(page);"
+                      >Ac Unit</a
+                    >
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="trans(page);"
+                      >Transporter List</a
+                    >
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="bank(page);"
+                      >Bank List</a
+                    >
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="city(page);"
+                      >City List</a
+                    >
+                    <div class="dropdown-divider"></div>
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="item_cat(page);"
+                      >Item Category</a
+                    >
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="item(page);"
+                      >Item List</a
+                    >
+                    <div class="dropdown-divider"></div>
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="party(page);"
+                      >Party List</a
+                    >
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="party_rate(page);"
+                      >Party Rate List</a
+                    >
+                    <div class="dropdown-divider"></div>
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="saleman(page);"
+                      >Saleman</a
+                    >
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="area(page);"
+                      >Area</a
+                    >
+                  </div>
+                </li>
+                <li class="nav-item dropdown">
+                  <a
+                    style="color: white !important"
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    id="navbarDropdown"
+                    role="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    Transaction
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="purchase(page);"
+                      >Purchase</a
+                    >
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="sale(page);"
+                      >Sale</a
+                    >
+                    <div class="dropdown-divider"></div>
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="purchase_return(page);"
+                      >Purchase Return</a
+                    >
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="sale_return(page);"
+                      >Sale Return</a
+                    >
+                    <div class="dropdown-divider"></div>
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="payment(page);"
+                      >Payment</a
+                    >
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="receipt(page);"
+                      >Receipt</a
+                    >
+                  </div>
+                </li>
+                <li class="nav-item">
+                  <a
+                    style="color: white !important"
+                    class="nav-link"
+                    href="javascript:;"
+                    onclick="report(page);"
+                    >Reports</a
+                  >
+                </li>
+                <li class="nav-item dropdown">
+                  <a
+                    style="color: white !important"
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    id="navbarDropdown"
+                    role="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    Settings
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="add_user(page);"
+                      >Add User</a
+                    >
+                    <a
+                      class="dropdown-item"
+                      href="javascript:;"
+                      onclick="update_user(page);"
+                      >Update User</a
+                    >
+                  </div>
+                </li>
+              </ul>
+              <form class="form-inline my-2 my-lg-0">
+                <a
+                  style="color: white !important"
+                  class="nav-link disabled"
+                  href="#"
+                  >UPDATE USERS</a
+                >
+              </form>
+            </div>
+          </nav>
+          <!-- End of Topbar -->
+
+          <!-- ================================================================================================== -->
+          <div style="width: 100%; padding: 50px 300px 120px 300px">
+            <div class="form-group">
+              <label for="username">Your Username</label>
+              <input
+                type="text"
+                class="form-control"
+                id="username"
+                aria-describedby="emailHelp"
+                placeholder="Enter Username"
+                disabled
+              />
+            </div>
+            <div class="form-group">
+              <label for="new-username">Your New Username</label>
+              <input
+                type="text"
+                class="form-control"
+                id="new-username"
+                aria-describedby="emailHelp"
+                placeholder="Enter New Username"
+              />
+            </div>
+            <div class="form-group">
+              <label for="pass">Old Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="old-pass"
+                placeholder="Password"
+              />
+            </div>
+            <div class="form-group">
+              <label for="pass">New Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="pass"
+                placeholder="Password"
+              />
+            </div>
+            <div class="form-group">
+              <label for="re-pass">Confirm Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="re-pass"
+                placeholder="Password"
+              />
+            </div>
+            <button type="submit" onclick="update()" class="btn btn-primary">
+              Submit
+            </button>
+          </div>
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- ================================================================================================== -->
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright &copy; Muhammad Shariq 2021</span>
+            </div>
+          </div>
+        </footer>
+        <!-- End of Footer -->
+      </div>
+      <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div
+      class="modal fade"
+      id="logoutModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button
+              class="close"
+              type="button"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Select "Logout" below if you are ready to end your current session.
+          </div>
+          <div class="modal-footer">
+            <button
+              class="btn btn-secondary"
+              type="button"
+              data-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <a
+              class="btn btn-primary"
+              href="javascript:;"
+              onclick="login(page);"
+              >Logout</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Modal-->
+    <div
+      class="modal fade"
+      id="addModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Added Successfully
+            </h5>
+            <button
+              class="close"
+              type="button"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Your Response Has been added successfully.
+          </div>
+          <div class="modal-footer">
+            <button
+              class="btn btn-secondary"
+              type="button"
+              data-dismiss="modal"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Modal-->
+    <div
+      class="modal fade"
+      id="editModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Edit Transporter</h5>
+            <button
+              class="close"
+              type="button"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="id_trans">Select The Transporter</label>
+              <select class="form-control" id="id_trans"></select>
+
+              <div class="form-group">
+                <label for="name_trans">Enter The Transporter</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name_trans"
+                  placeholder="Enter the Transporter Label"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              class="btn btn-secondary"
+              type="button"
+              data-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <button class="btn btn-primary" onclick="edit_button()">
+              Update
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="../../vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="../../js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="../../vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="../../vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="../../js/demo/datatables-demo.js"></script>
+
+    <script src="setting-view.js"></script>
+
+    <script>
+      function update() {
+        let username = document.getElementById("username").value;
+        let new_username = document.getElementById("new-username").value;
+        let oldPassword = document.getElementById("old-pass").value;
+        let password = document.getElementById("pass").value;
+        let rePass = document.getElementById("re-pass").value;
+
+        username = String(username);
+        new_username = String(new_username);
+        oldPassword = String(oldPassword);
+        password = String(password);
+        rePass = String(rePass);
+
+        if (
+          username != "" &&
+          new_username != "" &&
+          password != "" &&
+          rePass != "" &&
+          oldPassword != ""
+        ) {
+          if (password.localeCompare(rePass) == 0) {
+            update_pass(username, password, new_username, oldPassword);
+            return;
+          } else {
+            alert("Password Does not Match");
+            return;
+          }
+        } else {
+          alert("Please Fill All Fields");
+          return;
+        }
+        return;
+      }
+    </script>
+  </body>
+</html>

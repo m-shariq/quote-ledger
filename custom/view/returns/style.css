@@ -1,0 +1,109 @@
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  opacity: 1 !important;
+}
+.dataTables_length,
+.dataTables_filter,
+.dataTables_info,
+.dataTables_paginate {
+  display: none;
+}
+table.dataTable > thead .sorting,
+table.dataTable > thead .sorting_asc,
+table.dataTable > thead .sorting_desc,
+table.dataTable > thead .sorting_asc_disabled,
+table.dataTable > thead .sorting_desc_disabled {
+  cursor: context-menu !important;
+  position: unset !important;
+}
+
+table.dataTable td {
+  height: 17px;
+  font-size: 12px;
+}
+
+table.dataTable th {
+  text-align: center;
+  height: 17px;
+  font-size: 12px;
+}
+input:active,
+input:focus {
+  border: 3px solid rgb(70, 134, 72) !important;
+  box-shadow: 0 1px 1px rgb(70, 134, 72) inset, 0 0 8px rgb(70, 134, 72) !important;
+}
+
+::-webkit-input-placeholder {
+  color: black !important;
+}
+
+label {
+  color: black !important;
+}
+input[placeholder],
+[placeholder],
+*[placeholder] {
+  color: black !important;
+}
+select {
+  color: black !important;
+}
+::-webkit-calendar-picker-indicator {
+  filter: invert(-1) !important;
+}
+input[type="date"] {
+  color: black !important;
+}
+input {
+  border: 1px solid black !important;
+}
+select {
+  border: 1px solid black !important;
+}
+li div div a {
+  color: black !important;
+}
+.active {
+  color: blue !important;
+}
+.collapse-header {
+  color: black !important;
+}
+.fa-bell,
+.fa-envelope,
+.user_name {
+  color: black !important;
+}
+
+tbody td.editable,
+td.editable1 {
+  border: 1px solid rgb(243, 98, 98);
+}
+
+table td:nth-child(1),
+td:nth-child(2),
+td:nth-child(3) {
+  display: none;
+}
+table th:nth-child(1),
+th:nth-child(2),
+th:nth-child(3) {
+  display: none;
+}
+
+th,
+td {
+  color: black !important;
+  border: 1px solid rgb(200, 200, 200);
+  font-weight: 900 !important;
+}
+th {
+  background-color: rgb(119, 171, 255);
+}
+input,
+select {
+  font-weight: 900 !important;
+}
+a {
+  font-weight: 700 !important;
+}
