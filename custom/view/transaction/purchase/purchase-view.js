@@ -6,13 +6,6 @@ $("#post11").attr("hidden", "");
 //   $("select").chosen({ no_results_text: "Oops, nothing found!" });
 // });
 
-var wage = document.getElementById("purchase_expiry");
-wage.addEventListener("keydown", function (e) {
-  if (e.code === "Enter") {
-    //checks whether the pressed key is "Enter"
-    add_button();
-  }
-});
 
 var wage = document.getElementById("cursor-pointer");
 wage.addEventListener("keydown", function (e) {
@@ -32,20 +25,6 @@ wage.addEventListener("keydown", function (e) {
 });
 
 var wage = document.getElementById("purchase_date");
-wage.addEventListener("keydown", function (e) {
-  if (e.code === "Enter") {
-    document.getElementById("purchase_trans").focus();
-  }
-});
-
-var wage = document.getElementById("purchase_trans");
-wage.addEventListener("keydown", function (e) {
-  if (e.code === "Enter") {
-    document.getElementById("purchase_bilty").focus();
-  }
-});
-
-var wage = document.getElementById("purchase_bilty");
 wage.addEventListener("keydown", function (e) {
   if (e.code === "Enter") {
     document.getElementById("purchase_item").focus();
@@ -77,14 +56,7 @@ wage.addEventListener("keydown", function (e) {
 var wage = document.getElementById("purchase_discount");
 wage.addEventListener("keydown", function (e) {
   if (e.code === "Enter") {
-    document.getElementById("purchase_batch").focus();
-  }
-});
-
-var wage = document.getElementById("purchase_batch");
-wage.addEventListener("keydown", function (e) {
-  if (e.code === "Enter") {
-    document.getElementById("purchase_expiry").focus();
+    add_button();
   }
 });
 
@@ -457,8 +429,6 @@ function show_purchase() {
   document.getElementById("purchase_quantity").value = "";
   document.getElementById("purchase_price").value = "";
   document.getElementById("purchase_discount").value = "";
-  document.getElementById("purchase_batch").value = "";
-  document.getElementById("purchase_expiry").value = "";
 
   $("#my-table").DataTable().clear().destroy();
   $("#my-table").removeClass().addClass("col-md-6");
@@ -470,8 +440,6 @@ function show_purchase() {
       price: "",
       discount: "",
       total: "",
-      batch: "",
-      expiry: "",
     },
   ];
   rowss = [
@@ -482,8 +450,6 @@ function show_purchase() {
       price: "",
       discount: "",
       total: "",
-      batch: "",
-      expiry: "",
     },
   ];
 
@@ -504,9 +470,7 @@ function show_purchase() {
       { width: "6%", targets: 2 },
       { width: "9%", targets: 3 },
       { width: "6%", targets: 4 },
-      { width: "11%", targets: 5 },
-      { width: "10%", targets: 6 },
-      { width: "12%", targets: 7 },
+      { width: "11%", targets: 5 }
     ],
 
     data: rowss,
@@ -516,9 +480,7 @@ function show_purchase() {
       { data: "quantity" },
       { data: "price" },
       { data: "discount" },
-      { data: "total" },
-      { data: "batch" },
-      { data: "expiry" },
+      { data: "total" }
     ],
     bFilter: false,
     bJQueryUI: true,
@@ -628,22 +590,16 @@ function show_purchase() {
   document.getElementById("purchase_quantity").value = "";
   document.getElementById("purchase_price").value = "";
   document.getElementById("purchase_discount").value = "";
-  document.getElementById("purchase_batch").value = "";
-  document.getElementById("purchase_expiry").value = "";
 
   document.getElementById("purchase_item").disabled = false;
   document.getElementById("purchase_quantity").disabled = false;
   document.getElementById("purchase_price").disabled = false;
   document.getElementById("purchase_discount").disabled = false;
-  document.getElementById("purchase_batch").disabled = false;
-  document.getElementById("purchase_expiry").disabled = false;
 
   document.getElementById("item_purchase").disabled = false;
   document.getElementById("quantity_purchase").disabled = false;
   document.getElementById("price_purchase").disabled = false;
   document.getElementById("discount_purchase").disabled = false;
-  document.getElementById("batch_purchase").disabled = false;
-  document.getElementById("expiry_purchase").disabled = false;
 
   document.getElementById("purchase_b_add").disabled = false;
   document.getElementById("purchase_b_edit").disabled = false;
@@ -689,8 +645,6 @@ function show_purchase_added() {
         document.getElementById("purchase_quantity").disabled = true;
         document.getElementById("purchase_price").disabled = true;
         document.getElementById("purchase_discount").disabled = true;
-        document.getElementById("purchase_batch").disabled = true;
-        document.getElementById("purchase_expiry").disabled = true;
         document.getElementById("purchase_b_add").disabled = true;
         document.getElementById("purchase_b_edit").disabled = false;
         document.getElementById("purchase_b_post").disabled = true;
@@ -702,15 +656,11 @@ function show_purchase_added() {
         document.getElementById("quantity_purchase").disabled = true;
         // document.getElementById("price_purchase").disabled = true;
         document.getElementById("discount_purchase").disabled = true;
-        document.getElementById("batch_purchase").disabled = true;
-        document.getElementById("expiry_purchase").disabled = true;
       } else {
         document.getElementById("purchase_item").disabled = false;
         document.getElementById("purchase_quantity").disabled = false;
         document.getElementById("purchase_price").disabled = false;
         document.getElementById("purchase_discount").disabled = false;
-        document.getElementById("purchase_batch").disabled = false;
-        document.getElementById("purchase_expiry").disabled = false;
         document.getElementById("purchase_b_add").disabled = false;
         document.getElementById("purchase_b_edit").disabled = false;
         document.getElementById("purchase_b_post").disabled = false;
@@ -722,8 +672,6 @@ function show_purchase_added() {
         document.getElementById("quantity_purchase").disabled = false;
         document.getElementById("price_purchase").disabled = false;
         document.getElementById("discount_purchase").disabled = false;
-        document.getElementById("batch_purchase").disabled = false;
-        document.getElementById("expiry_purchase").disabled = false;
       }
     }
   });
@@ -743,8 +691,6 @@ function show_purchase_added() {
         price: "",
         discount: "",
         total: "",
-        batch: "",
-        expiry: "",
       },
     ];
     for (var i = Object.keys(rows).length; i < 12; i++) {
@@ -764,8 +710,6 @@ function show_purchase_added() {
         { width: "9%", targets: 3 },
         { width: "6%", targets: 4 },
         { width: "11%", targets: 5 },
-        { width: "10%", targets: 6 },
-        { width: "12%", targets: 7 },
       ],
 
       data: rows,
@@ -776,8 +720,6 @@ function show_purchase_added() {
         { data: "price" },
         { data: "discount" },
         { data: "total" },
-        { data: "batch" },
-        { data: "expiry" },
       ],
       bFilter: false,
       bJQueryUI: true,
@@ -896,8 +838,6 @@ function show_edit_detail_purchase(purchase_id) {
           document.getElementById("quantity_purchase").value = row[0].quantity;
           document.getElementById("price_purchase").value = row[0].price;
           document.getElementById("discount_purchase").value = row[0].discount;
-          document.getElementById("batch_purchase").value = row[0].batch;
-          document.getElementById("expiry_purchase").value = row[0].expiry;
         }
       });
     }
@@ -916,8 +856,6 @@ function show_edit_item_detail(id) {
       document.getElementById("quantity_purchase").value = row[0].quantity;
       document.getElementById("price_purchase").value = row[0].price;
       document.getElementById("discount_purchase").value = row[0].discount;
-      document.getElementById("batch_purchase").value = row[0].batch;
-      document.getElementById("expiry_purchase").value = row[0].expiry;
     }
   });
 }

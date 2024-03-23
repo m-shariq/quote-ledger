@@ -15,7 +15,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
 
-    <title>Purchase | Ledger</title>
+    <title>Order | Ledger</title>
     <link rel="stylesheet" href="./../style.css" />
 
     <style></style>
@@ -165,7 +165,7 @@
                       class="dropdown-item"
                       href="javascript:;"
                       onclick="purchase(page);"
-                      >Sale</a
+                      >Order</a
                     >
                      
                     <div class="dropdown-divider"></div>
@@ -229,7 +229,7 @@
                   style="color: white !important"
                   class="nav-link disabled"
                   href="#"
-                  >PURCHASE</a
+                  >Order</a
                 >
               </form>
             </div>
@@ -273,11 +273,11 @@
                   />
                 </div>
 
-                <div class="form-group col-lg-2">
+                <div class="form-group col-lg-2" id="hid4">
                   <select class="form-control" id="purchase_trans"></select>
                 </div>
 
-                <div class="form-group col-lg-2">
+                <div class="form-group col-lg-2" id="hid5">
                   <input
                     type="text"
                     class="form-control form-control-user"
@@ -361,17 +361,17 @@
                           value="0"
                         />
                       </td>
-                      <td style="width: 10%">
+                      <td style="width: 0%" id="hid2">
                         <input
-                          style="width: 100%"
+                          style="width: 0%"
                           id="purchase_batch"
                           type="text"
                           placeholder="Batch"
                         />
                       </td>
-                      <td style="width: 10%">
+                      <td style="width: 0%" id="hid3">
                         <input
-                          style="width: 100%"
+                          style="width: 0%"
                           id="purchase_expiry"
                           type="text"
                           placeholder="mm-yyyy"
@@ -396,8 +396,6 @@
                         <th>RATE(RS)</th>
                         <th>DISC.</th>
                         <th>TOTAL(RS)</th>
-                        <th>BATCH</th>
-                        <th>EXPIRY</th>
                       </tr>
                     </thead>
                     <tbody></tbody>
@@ -409,8 +407,6 @@
                         <th></th>
                         <th>TOTAL</th>
                         <th>0</th>
-                        <th></th>
-                        <th></th>
                       </tr>
                     </tfoot>
                     <tbody>
@@ -677,7 +673,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Edit Purchase</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Edit Order</h5>
             <button
               class="close"
               type="button"
@@ -728,7 +724,7 @@
                 </div>
               </div>
 
-              <div class="row">
+              <div class="row" id="hid6">
                 <div class="form-group col-lg-6">
                   <label for="trans_purchase">Select The Transporter</label>
                   <select class="form-control" id="trans_purchase"></select>
@@ -797,7 +793,7 @@
                 </div>
               </div>
 
-              <div class="row">
+              <div class="row" id="hid1">
                 <div class="form-group col-lg-6">
                   <label for="batch_purchase">Batch</label>
                   <input
@@ -861,6 +857,14 @@
     <script src="purchase-invoice.js"></script>
 
     <script>
+      // make purchase_batch id hidden
+      document.getElementById("hid1").style.display = "none";
+      document.getElementById("hid2").style.display = "none";
+      document.getElementById("hid3").style.display = "none";
+      document.getElementById("hid4").style.display = "none";
+      document.getElementById("hid5").style.display = "none";
+      document.getElementById("hid6").style.display = "none";
+
       function invoice() {
         var invoice_id = document.getElementById("purchase_invoice").value;
 
@@ -905,8 +909,6 @@
         var quantity = document.getElementById("purchase_quantity").value;
         var price = document.getElementById("purchase_price").value;
         var discount = document.getElementById("purchase_discount").value;
-        var batch = document.getElementById("purchase_batch").value;
-        var expiry = document.getElementById("purchase_expiry").value;
 
         if (
           party != "" &&
@@ -914,13 +916,13 @@
           trans != "" &&
           item != "" &&
           quantity != "" &&
-          price != "" &&
-          batch != "" &&
-          expiry != ""
+          price != ""
         ) {
           if (discount == "") {
             discount = 0;
           }
+          var batch = "0";
+          var expiry = "00-0000";
           valid_purchase(
             party,
             date,
@@ -938,8 +940,6 @@
           document.getElementById("purchase_quantity").value = "";
           document.getElementById("purchase_price").value = "";
           document.getElementById("purchase_discount").value = "";
-          document.getElementById("purchase_batch").value = "";
-          document.getElementById("purchase_expiry").value = "";
           document.getElementById("cursor-pointer").focus();
 
           $("#alert_quantity").fadeIn(1000);
@@ -962,8 +962,6 @@
         var quantity = document.getElementById("quantity_purchase").value;
         var price = document.getElementById("price_purchase").value;
         var discount = document.getElementById("discount_purchase").value;
-        var batch = document.getElementById("batch_purchase").value;
-        var expiry = document.getElementById("expiry_purchase").value;
 
         if (
           party != "" &&
@@ -973,10 +971,10 @@
           quantity != "" &&
           price != "" &&
           discount != "" &&
-          batch != "" &&
-          expiry != "" &&
           purchase_id != ""
         ) {
+          var batch = "0";
+          var expiry = "00-0000";
           edit_purchase_out(
             party,
             date,

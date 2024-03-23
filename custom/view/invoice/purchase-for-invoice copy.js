@@ -138,7 +138,7 @@ function generateInvoiceTable(doc, invoice) {
     "Price (RS)",
     "G. Amount (RS)",
     "Disc.",
-    "Sale Tax",
+    "Order Tax",
     "Net. Total (RS)"
   );
   generateHr(doc, invoiceTableTop + 20);
