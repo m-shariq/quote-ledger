@@ -387,7 +387,7 @@ function post_purchase(purchase_id, amount1, party_id) {
     stmt.finalize();
 
     var stmt = db.connection.prepare(
-      `INSERT INTO invoice (payable, purchase_id) 
+      `INSERT INTO invoice (receivable, purchase_id) 
       SELECT ?,?
       WHERE NOT EXISTS (Select purchase_id From invoice WHERE purchase_id =?) LIMIT 1;`
     );

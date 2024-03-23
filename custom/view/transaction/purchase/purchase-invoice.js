@@ -10,11 +10,11 @@ function downloadInvoice(invoice_id, warranty) {
           console.log(purchase_item);
 
           const invoice1 = {
-            label: "PURCHASE",
+            label: "Quotation",
             shipping: party[0],
             items: purchase_item,
             purchase: purchase[0],
-            amounts: amount[0].payable,
+            amounts: amount[0].receivable,
             subtotal: 8000,
             paid: 0,
             invoice_nr: 1234,
@@ -58,7 +58,7 @@ function get_purchase(invoice_id, callback) {
 function get_amount(invoice_id, callback) {
   db.connection.serialize(function () {
     db.connection.all(
-      "SELECT payable from invoice where purchase_id=?",
+      "SELECT receivable from invoice where purchase_id=?",
       [invoice_id],
       function (err, row) {
         callback(row);

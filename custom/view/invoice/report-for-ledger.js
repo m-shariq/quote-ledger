@@ -120,7 +120,7 @@ function generateInvoiceTable(doc, invoice) {
           check(details.debit),
           check(details.credit),
           opening_balance,
-          "PI",
+          "OI",
           opening_type
         );
         for (j = 0; j < invoice.purchase_item.length; j++) {
