@@ -11,7 +11,7 @@
   "build": {
     "appId": "quote-app",
     "win": {
-      "icon": "./icon.png",
+      "icon": "./pic.jpeg",
       "target": [
         "nsis"
       ]

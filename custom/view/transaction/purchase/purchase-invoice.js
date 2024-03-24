@@ -7,6 +7,7 @@ function downloadInvoice(invoice_id, warranty) {
     get_amount(invoice_id, function (amount) {
       get_purchase(invoice_id, function (purchase) {
         get_purchase_item(invoice_id, function (purchase_item) {
+          console.log(party);
           const invoice1 = {
             label: "Quotation",
             shipping: party[0],
@@ -31,8 +32,9 @@ function get_party(invoice_id, callback) {
   db.connection.serialize(function () {
     db.connection.all(
       "SELECT party_name as party, address, cell , city_name as city FROM party_group, city_group, purchase where city_group.city_id=party_group.city_id and purchase.party_id=party_group.party_id and purchase.purchase_id=?",
-      [invoice_id],
+      [1],
       function (err, row) {
+        console.log(row);
         callback(row);
       }
     );
