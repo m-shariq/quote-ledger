@@ -399,19 +399,20 @@ function show_item_cat_table() {
 // FUNCTIONALITIES FOR THE ITEM CAT ENDED
 
 // FUNCTIONALITIES FOR THE ITEM STARTED
-function add_item(item_cat_name, item_cat, ac) {
+function add_item(item_cat_name, item_cat, description) {
+  console.log(item_cat_name, item_cat, description);
   var stmt = db.connection.prepare(
-    "INSERT INTO item_group (item_name,ac_id,item_cat_id) VALUES (?,?,?)"
+    "INSERT INTO item_group (item_name,description,item_cat_id) VALUES (?,?,?)"
   );
-  stmt.run(item_cat_name, ac, item_cat);
+  stmt.run(item_cat_name, description, item_cat);
   stmt.finalize();
 }
 
-function edit_item(item_id, item_name, item_cat, ac) {
+function edit_item(item_id, item_name, item_cat, description) {
   var stmt = db.connection.prepare(
-    "UPDATE item_group SET item_name = ? , item_cat_id = ? , ac_id = ? WHERE item_id = ?"
+    "UPDATE item_group SET item_name = ? , item_cat_id = ? , description = ? WHERE item_id = ?"
   );
-  stmt.run(item_name, item_cat, ac, item_id);
+  stmt.run(item_name, item_cat, description, item_id);
   stmt.finalize();
 }
 
@@ -449,7 +450,7 @@ function show_add_item() {
 
 function show_edit_item() {
   var sql =
-    "SELECT item_id AS id, item_name as name, item_cat_name as cat_name, ac_name as ac_name FROM item_group,ac_group,item_cat_group where item_group.ac_id = ac_group.ac_id and item_group.item_cat_id = item_cat_group.item_cat_id";
+    "SELECT item_id AS id, item_name as name, item_cat_name as cat_name FROM item_group,item_cat_group where item_group.item_cat_id = item_cat_group.item_cat_id";
   db.connection.all(sql, [], (err, rows) => {
     if (err) {
       throw err;
@@ -462,23 +463,9 @@ function show_edit_item() {
       $("#id_item").append(
         $("<option>")
           .text(
-            rows[i].name + " - " + rows[i].cat_name + " - " + rows[i].ac_name
+            rows[i].name + " - " + rows[i].cat_name
           )
           .attr("value", rows[i].id)
-      );
-    }
-  });
-
-  var sql = "SELECT ac_id AS id, ac_name as name FROM ac_group";
-  db.connection.all(sql, [], (err, rows) => {
-    if (err) {
-      throw err;
-    }
-
-    $("#ac_id option").remove();
-    for (let i = 0; i < rows.length; i++) {
-      $("#ac_id").append(
-        $("<option>").text(rows[i].name).attr("value", rows[i].id)
       );
     }
   });
@@ -501,14 +488,14 @@ function show_edit_item() {
 
 function show_item_table() {
   var sql =
-    "SELECT item_id AS id, item_name as name, item_cat_name as cat_name, ac_name as ac_name FROM item_group,ac_group,item_cat_group where item_group.ac_id = ac_group.ac_id and item_group.item_cat_id = item_cat_group.item_cat_id";
+    "SELECT item_id AS id, item_name as name, item_cat_name as cat_name, description FROM item_group,item_cat_group where item_group.item_cat_id = item_cat_group.item_cat_id";
   db.connection.all(sql, [], (err, rows) => {
     if (err) {
       throw err;
     }
     $("#my-table").DataTable().clear().destroy();
     $("#my-table").removeClass().addClass("col-md-6");
-    rowss = [{ id: "", name: "", cat_name: "", ac_name: "" }];
+    rowss = [{ id: "", name: "", cat_name: "", description: "" }];
     console.log(Object.keys(rows).length);
     for (var i = Object.keys(rows).length; i < 10; i++) {
       rows = rows.concat(rowss);
@@ -518,14 +505,14 @@ function show_item_table() {
       columnDefs: [
         { width: "9%", targets: 0 },
         { width: "10%", targets: 2 },
-        { width: "15%", targets: 3 },
+        { width: "30%", targets: 3 },
       ],
       data: rows,
       columns: [
         { data: "id" },
         { data: "name" },
         { data: "cat_name" },
-        { data: "ac_name" },
+        { data: "description" },
       ],
     });
   });
@@ -910,11 +897,11 @@ function edit_display_item(party_id) {
     }
     if (rows.length != 0) {
       document.getElementById("name_item").value = rows[0].item_name;
-      document.getElementById("ac_id").value = rows[0].ac_id;
+      document.getElementById("item_desc_id").value = rows[0].description;
       document.getElementById("item_cat_id").value = rows[0].item_cat_id;
     } else {
       document.getElementById("name_item").value = "";
-      document.getElementById("ac_id").selectedIndex = "0";
+      document.getElementById("item_desc_id").value = "";
       document.getElementById("item_cat_id").selectedIndex = "0";
     }
   });

@@ -21,7 +21,7 @@
       "perMachine": true,
       "allowToChangeInstallationDirectory": true,
       "runAfterFinish": true,
-      "shortcutName": "Ledger 2023"
+      "shortcutName": "Quotation App"
     }
   },
   "win": {

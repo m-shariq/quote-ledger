@@ -171,7 +171,7 @@ get_purchasePu = function (date_from, date_to, party_id, item_id, callback) {
     if (item_id && item_id != "") {
       db.connection.serialize(function () {
         db.connection.all(
-          "SELECT DISTINCT purchase.purchase_id as id,trans_name,bilty, party_name as party, address, cell , city_name as city, date, invoice.receivable as received, invoice.payable as paid FROM trans_group, purchase_item, party_group, city_group, purchase,invoice where trans_group.trans_id=purchase.trans_id and invoice.purchase_id=purchase.purchase_id and city_group.city_id=party_group.city_id and purchase.party_id=party_group.party_id and purchase.status=1 and  purchase.purchase_id = purchase_item.purchase_id and purchase.date>=? and purchase.date<=? and purchase.party_id=? and purchase_item.item_id=? order by purchase.date ASC",
+          "SELECT DISTINCT purchase.purchase_id as id,bilty, party_name as party, address, cell , city_name as city, date, invoice.receivable as received, invoice.payable as paid FROM purchase_item, party_group, city_group, purchase,invoice where invoice.purchase_id=purchase.purchase_id and city_group.city_id=party_group.city_id and purchase.party_id=party_group.party_id and purchase.status=1 and  purchase.purchase_id = purchase_item.purchase_id and purchase.date>=? and purchase.date<=? and purchase.party_id=? and purchase_item.item_id=? order by purchase.date ASC",
           [date_from, date_to, party_id, item_id],
           function (err, row) {
             callback(row);
@@ -181,7 +181,7 @@ get_purchasePu = function (date_from, date_to, party_id, item_id, callback) {
     } else {
       db.connection.serialize(function () {
         db.connection.all(
-          "SELECT purchase.purchase_id as id,trans_name,bilty, party_name as party, address, cell , city_name as city, date, invoice.receivable as received, invoice.payable as paid FROM trans_group, party_group, city_group, purchase,invoice where trans_group.trans_id=purchase.trans_id and invoice.purchase_id=purchase.purchase_id and city_group.city_id=party_group.city_id and purchase.party_id=party_group.party_id and purchase.status=1 and purchase.date>=? and purchase.date<=? and purchase.party_id=? order by purchase.date ASC",
+          "SELECT purchase.purchase_id as id,bilty, party_name as party, address, cell , city_name as city, date, invoice.receivable as received, invoice.payable as paid FROM party_group, city_group, purchase,invoice where invoice.purchase_id=purchase.purchase_id and city_group.city_id=party_group.city_id and purchase.party_id=party_group.party_id and purchase.status=1 and purchase.date>=? and purchase.date<=? and purchase.party_id=? order by purchase.date ASC",
           [date_from, date_to, party_id],
           function (err, row) {
             callback(row);
@@ -193,7 +193,7 @@ get_purchasePu = function (date_from, date_to, party_id, item_id, callback) {
     if (item_id && item_id != "") {
       db.connection.serialize(function () {
         db.connection.all(
-          "SELECT DISTINCT purchase.purchase_id as id,trans_name,bilty, party_name as party, address, cell , city_name as city, date, invoice.receivable as received, invoice.payable as paid FROM trans_group, purchase_item, party_group, city_group, purchase,invoice where trans_group.trans_id=purchase.trans_id and invoice.purchase_id=purchase.purchase_id and city_group.city_id=party_group.city_id and purchase.party_id=party_group.party_id and purchase.status=1 and  purchase.purchase_id = purchase_item.purchase_id and purchase.date>=? and purchase.date<=? and purchase_item.item_id=? order by party_name ASC, date ASC",
+          "SELECT DISTINCT purchase.purchase_id as id,bilty, party_name as party, address, cell , city_name as city, date, invoice.receivable as received, invoice.payable as paid FROM purchase_item, party_group, city_group, purchase,invoice where invoice.purchase_id=purchase.purchase_id and city_group.city_id=party_group.city_id and purchase.party_id=party_group.party_id and purchase.status=1 and  purchase.purchase_id = purchase_item.purchase_id and purchase.date>=? and purchase.date<=? and purchase_item.item_id=? order by party_name ASC, date ASC",
           [date_from, date_to, item_id],
           function (err, row) {
             callback(row);
@@ -203,7 +203,7 @@ get_purchasePu = function (date_from, date_to, party_id, item_id, callback) {
     } else {
       db.connection.serialize(function () {
         db.connection.all(
-          "SELECT purchase.purchase_id as id,trans_name,bilty, party_name as party, address, cell , city_name as city, date, invoice.receivable as received, invoice.payable as paid FROM trans_group, party_group, city_group, purchase,invoice where trans_group.trans_id=purchase.trans_id and invoice.purchase_id=purchase.purchase_id and city_group.city_id=party_group.city_id and purchase.party_id=party_group.party_id and purchase.status=1 and purchase.date>=? and purchase.date<=? order by party_name ASC, date ASC",
+          "SELECT purchase.purchase_id as id,bilty, party_name as party, address, cell , city_name as city, date, invoice.receivable as received, invoice.payable as paid FROM party_group, city_group, purchase,invoice where invoice.purchase_id=purchase.purchase_id and city_group.city_id=party_group.city_id and purchase.party_id=party_group.party_id and purchase.status=1 and purchase.date>=? and purchase.date<=? order by party_name ASC, date ASC",
           [date_from, date_to],
           function (err, row) {
             callback(row);
@@ -227,7 +227,7 @@ get_purchase_itemPu = function (
     if (item_id && item_id != "") {
       db.connection.serialize(function () {
         db.connection.all(
-          "Select purchase.purchase_id as id,ac_name,quantity,return_quantity,discount,batch,expiry,price,total,item_name as name from ac_group, item_group, purchase_item, purchase where item_group.ac_id = ac_group.ac_id and purchase_item.item_id=item_group.item_id and purchase_item.purchase_id=purchase.purchase_id and purchase.status=1 and purchase.date>=? and purchase.date<=? and purchase.party_id=? and purchase_item.item_id=? order by purchase.date ASC",
+          "Select purchase.purchase_id as id,quantity,return_quantity,discount,batch,expiry,price,total,item_name as name froM item_group, purchase_item, purchase where purchase_item.item_id=item_group.item_id and purchase_item.purchase_id=purchase.purchase_id and purchase.status=1 and purchase.date>=? and purchase.date<=? and purchase.party_id=? and purchase_item.item_id=? order by purchase.date ASC",
           [date_from, date_to, party_id, item_id],
           function (err, row) {
             callback(row);
@@ -237,7 +237,7 @@ get_purchase_itemPu = function (
     } else {
       db.connection.serialize(function () {
         db.connection.all(
-          "Select purchase.purchase_id as id, ac_name,quantity,discount,return_quantity,batch,expiry,price,total,item_name as name from item_group,ac_group, purchase_item, purchase where item_group.ac_id = ac_group.ac_id and purchase_item.item_id=item_group.item_id and purchase_item.purchase_id=purchase.purchase_id and purchase.status=1 and purchase.date>=? and purchase.date<=? and purchase.party_id=? order by purchase.date ASC",
+          "Select purchase.purchase_id as id,quantity,discount,return_quantity,batch,expiry,price,total,item_name as name from item_group, purchase_item, purchase where purchase_item.item_id=item_group.item_id and purchase_item.purchase_id=purchase.purchase_id and purchase.status=1 and purchase.date>=? and purchase.date<=? and purchase.party_id=? order by purchase.date ASC",
           [date_from, date_to, party_id],
           function (err, row) {
             callback(row);
@@ -249,7 +249,7 @@ get_purchase_itemPu = function (
     if (item_id && item_id != "") {
       db.connection.serialize(function () {
         db.connection.all(
-          "Select purchase.purchase_id as id,ac_name,quantity,discount,return_quantity,batch,expiry,price,total,item_name as name from ac_group, item_group, purchase_item, purchase where item_group.ac_id = ac_group.ac_id and purchase_item.item_id=item_group.item_id and purchase_item.purchase_id=purchase.purchase_id and purchase.status=1 and purchase.date>=? and purchase.date<=? and purchase_item.item_id=? order by purchase.date ASC",
+          "Select purchase.purchase_id as id,quantity,discount,return_quantity,batch,expiry,price,total,item_name as name from item_group, purchase_item, purchase where purchase_item.item_id=item_group.item_id and purchase_item.purchase_id=purchase.purchase_id and purchase.status=1 and purchase.date>=? and purchase.date<=? and purchase_item.item_id=? order by purchase.date ASC",
           [date_from, date_to, item_id],
           function (err, row) {
             callback(row);
@@ -259,7 +259,7 @@ get_purchase_itemPu = function (
     } else {
       db.connection.serialize(function () {
         db.connection.all(
-          "Select purchase.purchase_id as id,ac_name,quantity,discount,return_quantity,batch,expiry,price,total,item_name as name from ac_group, item_group, purchase_item, purchase where item_group.ac_id = ac_group.ac_id and purchase_item.item_id=item_group.item_id and purchase_item.purchase_id=purchase.purchase_id and purchase.status=1 and purchase.date>=? and purchase.date<=? order by purchase.date ASC",
+          "Select purchase.purchase_id as id,quantity,discount,return_quantity,batch,expiry,price,total,item_name as name from item_group, purchase_item, purchase where purchase_item.item_id=item_group.item_id and purchase_item.purchase_id=purchase.purchase_id and purchase.status=1 and purchase.date>=? and purchase.date<=? order by purchase.date ASC",
           [date_from, date_to],
           function (err, row) {
             callback(row);

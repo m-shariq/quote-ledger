@@ -33,7 +33,7 @@ function generateHeader(doc) {
     .fontSize(10)
     .fillColor("#444444")
     .text("Faisalabad, Pakistan, +92 300 966 7709", 50, 80)
-    .text("Email: shariqhealthcare28@gmail.com", 50, 95)
+    .text("Email: mechatronic78@gmail.com", 50, 95)
     .text("", 50, 80)
     .moveDown();
 }
@@ -106,6 +106,9 @@ function generateInvoiceTable(doc, invoice) {
   );
   doc.font("Helvetica").fillColor("#444444");
 
+  var position = 0;
+  var price_t = 0;
+
   for (x = 0; x < invoice.items.length; x++) {
     if (invoiceTableTop + (i + 1) * 30 > 620) {
       doc.addPage();
@@ -113,18 +116,23 @@ function generateInvoiceTable(doc, invoice) {
       i = 0;
     }
     const item = invoice.items[x];
-    const position = invoiceTableTop + (i + 1) * 30;
+    const height = doc.heightOfString(item.ac_name);
+    if (x > 0) {
+      invoiceTableTop = invoiceTableTop + height;
+    }
+    position = invoiceTableTop + (i + 1) * 30;
     doc.font("Helvetica");
     if (item.return_quantity > 0) {
       var return_q = "RETURNED QUANTITY: " + item.return_quantity;
     } else {
       var return_q = "";
     }
+
     generateTableRow(
       doc,
       position,
       item.name,
-      " - " + item.ac_name,
+      item.ac_name,
       "",
       "",
       item.quantity,
@@ -134,9 +142,14 @@ function generateInvoiceTable(doc, invoice) {
       return_q
     );
 
+    price_t = price_t + parseFloat(item.total);
+
     i++;
-    generateHr(doc, position + 20);
+    if (invoice.items.length > 1 && x > 0) {
+      generateHr(doc, position - 10);
+    }
   }
+  if (i > 1) i--;
 
   if (invoiceTableTop + (i + 1) * 30 > 620) {
     doc.addPage();
@@ -144,7 +157,7 @@ function generateInvoiceTable(doc, invoice) {
     i = 0;
   }
 
-  const subtotalPosition = invoiceTableTop + (i + 1) * 30;
+  const subtotalPosition = position + (i + 1) * 30;
   generateTableRow(
     doc,
     subtotalPosition,
@@ -155,7 +168,7 @@ function generateInvoiceTable(doc, invoice) {
     "",
     "Subtotal (RS)",
     "",
-    invoice.amounts,
+    price_t.toFixed(2),
     ""
   );
 
@@ -186,7 +199,7 @@ function generateInvoiceTable(doc, invoice) {
     "",
     "Balance Due (RS)",
     "",
-    invoice.amounts,
+    price_t.toFixed(2),
     ""
   );
   doc.font("Helvetica");
@@ -203,8 +216,14 @@ function generateInvoiceTable(doc, invoice) {
     .text("2. 45% At the time of delivery", 60)
     .text("3. 5% After delivery", 60)
     .text("II. One Month after sale service", 53)
-    .text("III. The delivery time of 3 months is dependent on the payment schedule mentioned above.", 53)
-    .text("IV. There is no warranty for the electrical parts of the machine.", 53)
+    .text(
+      "III. The delivery time of 3 months is dependent on the payment schedule mentioned above.",
+      53
+    )
+    .text(
+      "IV. There is no warranty for the electrical parts of the machine.",
+      53
+    )
     .fillColor("#ffffff")
     .text(".", 53)
     .text(".", 53)
@@ -213,51 +232,6 @@ function generateInvoiceTable(doc, invoice) {
     .text("Authorized Signature", 440)
     .text("", 50, 80)
     .moveDown();
-
-}
-
-function generateFooter(doc, invoice, warranty, loc, explain) {
-  if (invoice.warranty == "yes") {
-    doc
-      .fontSize(10)
-      .font("Helvetica-Bold")
-      .text("TOTAL: (RS)", 0, loc, { align: "right", width: 480 })
-
-      .text(invoice.amounts + " /-", 50, loc, { align: "right", width: 500 })
-
-      .text(doConvert(invoice.amounts), 50, loc, { align: "left", width: 500 })
-      .fontSize(9)
-      .font("Helvetica-Bold")
-
-      .text(warranty, 50, loc + 45, {
-        align: "left",
-        width: 500,
-        underline: true,
-      })
-
-      .fontSize(9)
-      .font("Helvetica")
-
-      .text(explain, 50, loc + 70, { align: "left", width: 330 })
-
-      .fontSize(10)
-      .font("Helvetica-Bold")
-
-      .text("Authorized Signature", 440, loc + 125, {
-        align: "left",
-        width: 330,
-      })
-      .underline(430, 0, 120, loc + 119);
-  } else {
-    doc
-      .fontSize(10)
-      .font("Helvetica-Bold")
-      .text("TOTAL: (RS)", 0, loc, { align: "right", width: 480 })
-
-      .text(invoice.amounts + " /-", 50, loc, { align: "right", width: 500 })
-
-      .text(doConvert(invoice.amounts), 50, loc, { align: "left", width: 500 });
-  }
 }
 
 function generateTableRow(
@@ -273,19 +247,39 @@ function generateTableRow(
   total,
   return_quantity
 ) {
-  doc
-    .fontSize(9)
-    .font("Helvetica-Bold")
-    .text(item + ac, 53, y)
-    .text(batch, 180, y, { width: 100, align: "right" })
-    .text(expiry, 240, y, { width: 100, align: "right" })
-    .text(quantity, 290, y, { width: 100, align: "right" })
-    .text(price, 350, y, { width: 100, align: "right" })
-    .text(discount, 390, y, { width: 100, align: "right" })
-    .text(total, 455, y, { width: 100, align: "right" })
-    .font("Helvetica-Bold")
-    .text(return_quantity, 280, y + 10);
-  // .text(lineTotal, 0, y, { align: "right" });
+  if (ac == "") {
+    doc
+      .fontSize(9)
+      .font("Helvetica-Bold")
+      .text(item, 53, y)
+      .text(batch, 180, y, { width: 100, align: "right" })
+      .text(expiry, 240, y, { width: 100, align: "right" })
+      .text(quantity, 290, y, { width: 100, align: "right" })
+      .text(price, 350, y, { width: 100, align: "right" })
+      .text(discount, 390, y, { width: 100, align: "right" })
+      .text(total, 455, y, { width: 100, align: "right" })
+      .font("Helvetica-Bold")
+      .text(return_quantity, 280, y + 10);
+  } else {
+    doc
+      .fontSize(9)
+      .font("Helvetica-Bold")
+      .text(item, 53, y)
+      .fontSize(8)
+      .text("- Specification:", 54, y + 10)
+      .font("Helvetica")
+      .text(ac, 60, y + 19)
+      .fontSize(9)
+      .font("Helvetica-Bold")
+      .text(batch, 180, y, { width: 100, align: "right" })
+      .text(expiry, 240, y, { width: 100, align: "right" })
+      .text(quantity, 290, y, { width: 100, align: "right" })
+      .text(price, 350, y, { width: 100, align: "right" })
+      .text(discount, 390, y, { width: 100, align: "right" })
+      .text(total, 455, y, { width: 100, align: "right" })
+      .font("Helvetica-Bold")
+      .text(return_quantity, 280, y + 10);
+  }
 }
 
 function generateHr(doc, y) {
@@ -294,93 +288,6 @@ function generateHr(doc, y) {
 
 function formatCurrency(cents) {
   return cents;
-}
-
-function formatDate(date) {
-  const day = date.getDate();
-  const month = date.getMonth() + 1;
-  const year = date.getFullYear();
-
-  return year + "/" + month + "/" + day;
-}
-
-function doConvert(numberIn) {
-  console.log(numberIn);
-  var numberInput = Number(numberIn);
-
-  let oneToTwenty = [
-    "",
-    "One ",
-    "Two ",
-    "Three ",
-    "Four ",
-    "Five ",
-    "Six ",
-    "Seven ",
-    "Eight ",
-    "Nine ",
-    "Ten ",
-    "Eleven ",
-    "Twelve ",
-    "Thirteen ",
-    "Fourteen ",
-    "Fifteen ",
-    "Sixteen ",
-    "Seventeen ",
-    "Eighteen ",
-    "Nineteen ",
-  ];
-  let tenth = [
-    "",
-    "",
-    "Twenty",
-    "Thirty",
-    "Forty",
-    "Fifty",
-    "Sixty",
-    "Seventy",
-    "Eighty",
-    "Ninety",
-  ];
-
-  if (numberInput.toString().length > 7) return;
-  console.log(numberInput);
-  //let num = ('0000000000'+ numberInput).slice(-10).match(/^(\d{1})(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
-  let num = ("0000000" + numberInput)
-    .slice(-7)
-    .match(/^(\d{1})(\d{1})(\d{2})(\d{1})(\d{2})$/);
-  console.log(num);
-  if (!num) return;
-
-  let outputText =
-    num[1] != 0
-      ? (oneToTwenty[Number(num[1])] ||
-          `${tenth[num[1][0]]} ${oneToTwenty[num[1][1]]}`) + "Million "
-      : "";
-
-  outputText +=
-    num[2] != 0
-      ? (oneToTwenty[Number(num[2])] ||
-          `${tenth[num[2][0]]} ${oneToTwenty[num[2][1]]}`) + "Hundred "
-      : "";
-  outputText +=
-    num[3] != 0
-      ? (oneToTwenty[Number(num[3])] ||
-          `${tenth[num[3][0]]} ${oneToTwenty[num[3][1]]}`) + "Thousand "
-      : "";
-  outputText +=
-    num[4] != 0
-      ? (oneToTwenty[Number(num[4])] ||
-          `${tenth[num[4][0]]} ${oneToTwenty[num[4][1]]}`) + "Hundred "
-      : "";
-  outputText +=
-    num[5] != 0
-      ? oneToTwenty[Number(num[5])] ||
-        `${tenth[num[5][0]]} ${oneToTwenty[num[5][1]]} `
-      : "";
-
-  console.log(outputText);
-  return outputText + "RUPEES ONLY.";
 }
 
 module.exports = {

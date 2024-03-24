@@ -116,7 +116,7 @@ function generateInvoiceTable(doc, invoice) {
           position,
           details.id,
           details.date,
-          "Trans: " + details.trans_name + " , Bilty #: " + details.bilty,
+          "",
           check(details.debit),
           check(details.credit),
           opening_balance,
@@ -499,7 +499,7 @@ function generateTableInnerRowPurchase(
     .fontSize(7)
     .font("Helvetica-Bold")
     .fillColor("#392714")
-    .text(name + " - " + ac, 80, y, { width: 200, align: "left" })
+    .text(name, 80, y, { width: 200, align: "left" })
     .text("Q: " + quantity, 260, y, { width: 30, align: "left" })
     .text("RS. " + price + "/Q", 290, y, { width: 100, align: "left" })
     .text("D: " + discount + "%", 340, y, { width: 35, align: "left" })

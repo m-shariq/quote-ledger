@@ -242,7 +242,7 @@
                         <th>ID</th>
                         <th>NAME</th>
                         <th>Category</th>
-                        <th>AC Group</th>
+                        <th>Description</th>
                       </tr>
                       <tr>
                         <td></td>
@@ -258,7 +258,7 @@
                           <select style="width: 100%" id="id_item_cat"></select>
                         </td>
                         <td>
-                          <select style="width: 100%" id="id_ac"></select>
+                          <textarea style="width: 100%" id="id_ac" rows="4" cols="100"></textarea>
                         </td>
                       </tr>
                     </thead>
@@ -267,7 +267,7 @@
                         <th>ID</th>
                         <th>NAME</th>
                         <th>Category</th>
-                        <th>AC Group</th>
+                        <th>Description</th>
                       </tr>
                     </tfoot>
                     <tbody>
@@ -486,8 +486,8 @@
                 />
               </div>
 
-              <label for="ac_id">Select The AC Group</label>
-              <select class="form-control" id="ac_id"></select>
+              <label for="item_desc_id">Select The AC Group</label>
+              <textarea style="width: 100%" id="item_desc_id" rows="4" cols="100"></textarea>
 
               <label for="item_cat_id">Select The Category</label>
               <select class="form-control" id="item_cat_id"></select>
@@ -541,7 +541,8 @@
       function add_button() {
         var name = document.getElementById("item_name").value;
         var item_cat = $("#id_item_cat").val();
-        var ac = $("#id_ac").val();
+        var ac = document.getElementById("id_ac").value;
+        console.log(name, item_cat, ac);
         if (name != "") {
           console.log("aa");
           add_item(name, item_cat, ac);
@@ -550,12 +551,13 @@
           show_edit_item();
 
           document.getElementById("item_name").value = "";
+          document.getElementById("id_ac").value = "";
         }
       }
       function edit_button() {
         var name = document.getElementById("name_item").value;
         var item_cat = $("#item_cat_id").val();
-        var ac = $("#ac_id").val();
+        var ac = document.getElementById("item_desc_id").value;
         var id = $("#id_item").val();
 
         if (name != "" && id != "") {

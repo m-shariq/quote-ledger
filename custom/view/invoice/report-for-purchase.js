@@ -84,7 +84,7 @@ function generateInvoiceTable(doc, invoice) {
       invoiceTableTop,
       "Inv.",
       "Date",
-      "Naration",
+      "",
       "",
       invoice.sub,
       "Total (RS)"
@@ -133,7 +133,7 @@ function generateInvoiceTable(doc, invoice) {
         position,
         details.id,
         details.date,
-        "Trans: " + details.trans_name + " , Bilty #: " + details.bilty,
+        "",
         invoice.invoice_type,
         check(details.received),
         c
@@ -161,7 +161,7 @@ function generateInvoiceTable(doc, invoice) {
           doc,
           position,
           items.name,
-          items.ac_name,
+          "",
           "Q: " + items.quantity,
           items.price,
           "D: " + items.discount + "%",
@@ -275,7 +275,7 @@ function generateTableInnerRow(
     .fontSize(7)
     .font("Helvetica-Bold")
     .fillColor("#392714")
-    .text(name + " - " + ac, 80, y, { width: 200, align: "left" })
+    .text(name, 80, y, { width: 200, align: "left" })
     .text(quantity, 260, y, { width: 30, align: "left" })
     .text("RS. " + price + "/Q", 290, y, { width: 100, align: "left" })
     .text(discount, 340, y, { width: 35, align: "left" })

@@ -185,7 +185,7 @@ get_sale_itemL = function (date_from, date_to, party_id, callback) {
 get_purchaseL = function (date_from, date_to, party_id, callback) {
   db.connection.serialize(function () {
     db.connection.all(
-      "SELECT purchase.purchase_id as id, trans_name,bilty, trans_name,bilty, date, invoice.payable as credit, invoice.receivable as debit FROM trans_group,purchase,invoice where trans_group.trans_id=purchase.trans_id and invoice.purchase_id=purchase.purchase_id and purchase.status=1 and purchase.date>=? and purchase.date<=? and purchase.party_id=? order by purchase.date ASC",
+      "SELECT purchase.purchase_id as id,bilty,bilty, date, invoice.payable as credit, invoice.receivable as debit FROM purchase,invoice where invoice.purchase_id=purchase.purchase_id and purchase.status=1 and purchase.date>=? and purchase.date<=? and purchase.party_id=? order by purchase.date ASC",
       [date_from, date_to, party_id],
       function (err, row) {
         callback(row);
@@ -199,7 +199,7 @@ get_purchaseL = function (date_from, date_to, party_id, callback) {
 get_purchase_itemL = function (date_from, date_to, party_id, callback) {
   db.connection.serialize(function () {
     db.connection.all(
-      "Select purchase.purchase_id as id, ac_name,quantity,discount,price,total,item_name as name from ac_group, item_group, purchase_item, purchase where item_group.ac_id = ac_group.ac_id and purchase_item.item_id=item_group.item_id and purchase_item.purchase_id=purchase.purchase_id and purchase.status=1 and purchase.date>=? and purchase.date<=? and purchase.party_id=? order by purchase.date ASC",
+      "Select purchase.purchase_id as id,quantity,discount,price,total,item_name as name from item_group, purchase_item, purchase where purchase_item.item_id=item_group.item_id and purchase_item.purchase_id=purchase.purchase_id and purchase.status=1 and purchase.date>=? and purchase.date<=? and purchase.party_id=? order by purchase.date ASC",
       [date_from, date_to, party_id],
       function (err, row) {
         callback(row);
@@ -577,10 +577,10 @@ function calculateBalance(debit, credit, balance, type) {
   debit = parseInt(debit);
   credit = parseInt(credit);
 
-    console.log("debit: " + debit);
-    console.log("credit: " + credit);
-    console.log("balance: " + balance);
-    console.log("type: " + type);
+  console.log("debit: " + debit);
+  console.log("credit: " + credit);
+  console.log("balance: " + balance);
+  console.log("type: " + type);
 
   var balanceCr = 0;
   var balanceDe = 0;
@@ -593,8 +593,8 @@ function calculateBalance(debit, credit, balance, type) {
     balanceDe = balance;
   }
 
-    console.log("balanceCr: " + balanceCr);
-    console.log("balanceDe: " + balanceDe);
+  console.log("balanceCr: " + balanceCr);
+  console.log("balanceDe: " + balanceDe);
 
   if (balanceCr > 0) {
     if (debit > 0 && debit <= balanceCr) {
@@ -620,13 +620,13 @@ function calculateBalance(debit, credit, balance, type) {
     }
   }
 
-    console.log("final_balance: " + final_balance);
-    console.log("final_type: " + final_type);
+  console.log("final_balance: " + final_balance);
+  console.log("final_type: " + final_type);
 
-    if( debit == 0 && credit == 0 ){
-        final_balance = balance;
-        final_type = type;
-    }
+  if (debit == 0 && credit == 0) {
+    final_balance = balance;
+    final_type = type;
+  }
 
   return {
     final_balance: final_balance,
