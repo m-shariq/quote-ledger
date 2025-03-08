@@ -108,26 +108,27 @@ function generateInvoiceTable(doc, invoice) {
 
   var position = 0;
   var price_t = 0;
+  var height = 0;
+  invoiceTableTop = invoiceTableTop + 30;
 
   for (x = 0; x < invoice.items.length; x++) {
-    if (invoiceTableTop + (i + 1) * 30 > 620) {
-      doc.addPage();
-      invoiceTableTop = 50;
-      i = 0;
-    }
     const item = invoice.items[x];
-    const height = doc.heightOfString(item.ac_name);
-    if (x > 0) {
-      invoiceTableTop = invoiceTableTop + height;
-    }
-    position = invoiceTableTop + (i + 1) * 30;
-    doc.font("Helvetica");
-    if (item.return_quantity > 0) {
-      var return_q = "RETURNED QUANTITY: " + item.return_quantity;
+
+    if (x == 0 && invoice.items.length == 1) {
+      position = invoiceTableTop;
+      height = Math.ceil(doc.heightOfString(item.ac_name));
+      invoiceTableTop = invoiceTableTop + height + 30;
+    } else if (x == 0 && invoice.items.length > 1) {
+      position = invoiceTableTop;
+      height = Math.ceil(doc.heightOfString(item.ac_name));
+      invoiceTableTop = invoiceTableTop + 30;
     } else {
-      var return_q = "";
+      position = invoiceTableTop + height;
+      invoiceTableTop = invoiceTableTop + height + 30;
+      height = Math.ceil(doc.heightOfString(item.ac_name));
     }
 
+    doc.font("Helvetica");
     generateTableRow(
       doc,
       position,
@@ -139,25 +140,20 @@ function generateInvoiceTable(doc, invoice) {
       formatCurrency(item.price),
       item.discount,
       formatCurrency(item.total),
-      return_q
+      ""
     );
 
     price_t = price_t + parseFloat(item.total);
-
     i++;
-    if (invoice.items.length > 1 && x > 0) {
-      generateHr(doc, position - 10);
-    }
-  }
-  if (i > 1) i--;
-
-  if (invoiceTableTop + (i + 1) * 30 > 620) {
-    doc.addPage();
-    invoiceTableTop = 50;
-    i = 0;
+    console.log("Position: " + position);
+    console.log("Top: " + invoiceTableTop);
+    // if (invoice.items.length > 1 && x > 0) {
+      generateHr(doc, position + 23 + height);
+    // }
   }
 
-  const subtotalPosition = position + (i + 1) * 30;
+  const subtotalPosition = position + 30 + height
+  console.log("Subtotal Position: " + subtotalPosition);
   generateTableRow(
     doc,
     subtotalPosition,

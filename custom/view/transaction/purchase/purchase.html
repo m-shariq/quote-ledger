@@ -710,7 +710,6 @@
                     class="form-control"
                     id="party_purchase"
                     data-live-search="true"
-                    disabled
                   ></select>
                 </div>
 
@@ -962,6 +961,8 @@
         var quantity = document.getElementById("quantity_purchase").value;
         var price = document.getElementById("price_purchase").value;
         var discount = document.getElementById("discount_purchase").value;
+
+        console.log(party);
 
         if (
           party != "" &&

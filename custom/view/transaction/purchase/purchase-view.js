@@ -250,12 +250,12 @@ function valid_purchase(
 
 // ===================================================================================================================
 
-update_purchase = function (date, bilty, trans, purchase_id, callback) {
+update_purchase = function (party, date, bilty, trans, purchase_id, callback) {
   db.connection.serialize(function () {
     var stmt = db.connection.prepare(
-      "UPDATE purchase SET date = ?, bilty=?, trans_id=? WHERE purchase_id = ?"
+      "UPDATE purchase SET date = ?, bilty=?, trans_id=?, party_id=? WHERE purchase_id = ?"
     );
-    stmt.run(date, bilty, trans, purchase_id);
+    stmt.run(date, bilty, trans, party, purchase_id);
     stmt.finalize();
     callback("true");
   });
@@ -319,7 +319,7 @@ edit_purchase = function (
   var final = prev - avl;
   var final1 = quantity1 - final;
 
-  update_purchase(date, bilty, trans, purchase_id, function (u_p) {
+  update_purchase(party, date, bilty, trans, purchase_id, function (u_p) {
     update_purchase_item(
       final1,
       quantity,
@@ -647,10 +647,8 @@ function show_purchase_added() {
         document.getElementById("purchase_discount").disabled = true;
         document.getElementById("purchase_b_add").disabled = true;
         document.getElementById("purchase_b_edit").disabled = false;
-        document.getElementById("purchase_b_post").disabled = true;
-        document.getElementById("purchase_b_post").innerHTML = "Unpost";
-        // $("#post1").attr("hidden", "");
-        // $("#post11").removeAttr("hidden");
+        $("#post1").attr("hidden", "");
+        $("#post11").removeAttr("hidden");
 
         // document.getElementById("item_purchase").disabled = true;
         document.getElementById("quantity_purchase").disabled = true;
@@ -663,10 +661,8 @@ function show_purchase_added() {
         document.getElementById("purchase_discount").disabled = false;
         document.getElementById("purchase_b_add").disabled = false;
         document.getElementById("purchase_b_edit").disabled = false;
-        document.getElementById("purchase_b_post").disabled = false;
-        document.getElementById("purchase_b_post").innerHTML = "Post";
-        // $("#post11").attr("hidden", "");
-        // $("#post1").removeAttr("hidden");
+        $("#post11").attr("hidden", "");
+        $("#post1").removeAttr("hidden");
 
         document.getElementById("item_purchase").disabled = false;
         document.getElementById("quantity_purchase").disabled = false;

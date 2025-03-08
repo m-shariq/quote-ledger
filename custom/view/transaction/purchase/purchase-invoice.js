@@ -32,7 +32,7 @@ function get_party(invoice_id, callback) {
   db.connection.serialize(function () {
     db.connection.all(
       "SELECT party_name as party, address, cell , city_name as city FROM party_group, city_group, purchase where city_group.city_id=party_group.city_id and purchase.party_id=party_group.party_id and purchase.purchase_id=?",
-      [1],
+      [invoice_id],
       function (err, row) {
         console.log(row);
         callback(row);
